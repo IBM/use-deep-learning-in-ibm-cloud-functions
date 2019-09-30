@@ -39,7 +39,7 @@ ibmcloud fn package get manage_pictures
 # Create an action that performs object detection and display the action's properties OR
 # create an action that generates an image caption and display the action's properties
 ibmcloud fn action update manage_pictures/bucket_write_action detect_objects.py --kind python:3.7
-ibmcloud fn action update manage_pictures/bucket_write_action detect_objects.js --kind nodejs:10
+# ibmcloud fn action update manage_pictures/bucket_write_action detect_objects.js --kind nodejs:10
 
 # ibmcloud fn action update manage_pictures/bucket_write_action generate_image_caption.py --kind python:3.7
 
