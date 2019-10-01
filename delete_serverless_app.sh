@@ -3,7 +3,11 @@
 # selected namespace that implement the tutorial application.
 # ----------------------------------------------------------
 
-ibmcloud fn property set --namespace analyze_images
+# Cloud Functions namespace where the tutorial application
+# entities were created
+NAMESPACE_NAME=analyze_images
+
+ibmcloud fn property set --namespace $NAMESPACE_NAME
 
 # List entities in the current namespace
 ibmcloud fn list
@@ -27,4 +31,4 @@ ibmcloud fn package delete manage_pictures
 ibmcloud fn list
 
 # delete namespace
-ibmcloud fn namespace delete analyze_images
+ibmcloud fn namespace delete $NAMESPACE_NAME

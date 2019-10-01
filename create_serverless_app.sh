@@ -3,20 +3,27 @@
 # namespace that implement the tutorial application.
 #
 # Replace the following placeholders:
-#  <TODO-your-cloud-object-storage-instance-name>
 #  <TODO-your-bucket-name>
 # ----------------------------------------------------------
 
+# Cloud Object Storage instance name 
+COS_INSTANCE_NAME=cloud-object-storage-lite
+# Regional bucket in above Cloud Object Storage instance
+BUCKET_NAME=<TODO-your-bucket-name>
+# Cloud Functions namespace where the tutorial application
+# entities will be created
+NAMESPACE_NAME=analyze_images
+
 # Create and set namespace
-ibmcloud fn namespace create analyze_images --description "identify objects in images"
-ibmcloud fn property set --namespace analyze_images
+ibmcloud fn namespace create $NAMESPACE_NAME --description "identify objects in images"
+ibmcloud fn property set --namespace $NAMESPACE_NAME
 
 # List namespaces and entities in the current namespace
 ibmcloud fn namespace list
 ibmcloud fn list
 
 # Prepare namespace for Cloud Object Storage triggers
-ibmcloud iam authorization-policy-create functions cloud-object-storage "Notifications Manager" --source-service-instance-name analyze_images --target-service-instance-name <TODO-your-cloud-object-storage-instance-name>
+ibmcloud iam authorization-policy-create functions cloud-object-storage "Notifications Manager" --source-service-instance-name $NAMESPACE_NAME --target-service-instance-name $COS_INSTANCE_NAME
 
 # ----------------------------------------------------------
 # Perform a task whenever an object is uploaded to a  
@@ -24,7 +31,7 @@ ibmcloud iam authorization-policy-create functions cloud-object-storage "Notific
 # ----------------------------------------------------------
 
 # Create trigger that fires when a JPG image is uploaded to the specified bucket
-ibmcloud fn trigger create bucket_jpg_write_trigger --feed /whisk.system/cos/changes --param bucket <TODO-your-bucket-name> --param suffix ".jpg" --param event_types write
+ibmcloud fn trigger create bucket_jpg_write_trigger --feed /whisk.system/cos/changes --param bucket $BUCKET_NAME --param suffix ".jpg" --param event_types write
 # Display trigger properties
 ibmcloud fn trigger get bucket_jpg_write_trigger
 
@@ -33,7 +40,7 @@ ibmcloud fn package create manage_pictures
 ibmcloud fn package get manage_pictures
 
 # Bind a Cloud Object Storage service instance to the package and display package properties again
-ibmcloud fn service bind cloud-object-storage manage_pictures --instance <TODO-your-cloud-object-storage-instance-name>
+ibmcloud fn service bind cloud-object-storage manage_pictures --instance $COS_INSTANCE_NAME
 ibmcloud fn package get manage_pictures
 
 # Create an action that performs object detection and display the action's properties OR
@@ -58,7 +65,7 @@ ibmcloud fn list
 # ----------------------------------------------------------
 
 # Create trigger that fires when a JPG image is removed from the specified bucket
-ibmcloud fn trigger create bucket_jpg_delete_trigger --feed /whisk.system/cos/changes --param bucket <TODO-your-bucket-name> --param suffix ".jpg" --param event_types delete
+ibmcloud fn trigger create bucket_jpg_delete_trigger --feed /whisk.system/cos/changes --param bucket $BUCKET_NAME --param suffix ".jpg" --param event_types delete
 
 # Create an action that removes an annotation file 
 ibmcloud fn action update manage_pictures/bucket_delete_action bucket_delete_action.py --kind python:3.7
