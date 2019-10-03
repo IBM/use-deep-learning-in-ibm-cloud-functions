@@ -12,10 +12,10 @@ def main(args):
     key = params.get('key')
 
     try:
-        key_id = "{}_annotation.json".format(os.path.splitext(key)[0])
+        key_id = "annotations/{}.json".format(os.path.splitext(key)[0])
         cos.Object(bucket, key_id).delete()
-
     except Exception as e:
+        # log error but don't raise
         print(e)
 
     return {}

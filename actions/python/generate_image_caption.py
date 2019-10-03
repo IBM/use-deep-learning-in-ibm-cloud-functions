@@ -1,16 +1,18 @@
 """
 This code implements a Cloud Functions action, which
-performs Object Detection on an image that is stored
+generates a caption for an image that is stored
 in Cloud Object Storage.
 
 The action is preconfigured to utilize an evaluation instance
-of the Object Detector microservice from the Model Asset Exchange:
-https://developer.ibm.com/exchanges/models/all/max-object-detector/
+of the Image Caption Generator microservice from the Model Asset
+Exchange:
+https://developer.ibm.com/exchanges/models/all/max-image-caption-generator/
 """
 
 import ibm_boto3
 from ibm_botocore.client import Config
 import json
+import mimetypes
 import os
 import requests
 
@@ -59,36 +61,38 @@ def main(args):
     if not key:
         raise ValueError('Required parameter "key" is missing.')
 
+    # try to guess the mimetype of the object that's identified by "key"
+    (mimetype, encoding) = mimetypes.guess_type(key)
+
+    if not mimetype:
+        raise ValueError('The object\'s mimetype cannot be determined.')
+
     try:
-        # Use COS SDK to retrieve uploaded object from the bucket
+        # get added/updated object from bucket
         object = cos.get_object(Bucket=bucket,
                                 Key=key)
         # read object content
         content = object['Body'].read()
 
         # prepare payload for object detection analysis call:
-        #  - image (required; a JPG or PNG-encoded picture)
-        # https://developer.ibm.com/exchanges/models/all/max-object-detector/
+        #  - image (required)
+        # https://developer.ibm.com/exchanges/models/all/generate-image-caption/
         files = {
-            'image': content,
-            'Content-Type': 'multipart/form-data'
+           'image': (key, content, mimetype)
         }
 
-        #  threshold (optional; numeric between 0 (low confidence) and 1
-        # (high confidence))
-        data = {'threshold': '0.5'}
+        # URL of a MAX Image Caption Generator microservice evaluation instance
+        host = 'max-image-caption-generator.' \
+               'max.us-south.containers.appdomain.cloud'
 
-        # URL of a MAX Object Detector microservice evaluation instance
-        host = 'max-object-detector.max.us-south.containers.appdomain.cloud'
-        # Invoke the prediction endpoint of the Object Detection
+        # Invoke the prediction endpoint of the Image Caption Generator
         # microservice to analyze the loaded object.
         response = requests.post('http://{}/model/predict'.format(host),
-                                 files=files,
-                                 data=data)
+                                 files=files)
 
         if response.status_code == 200:
-            # generate an object key
-            key_id = "{}_annotation.json".format(os.path.splitext(key)[0])
+            # generate an object key for the annotation file
+            key_id = "annotations/{}.json".format(os.path.splitext(key)[0])
             # save prediction result in the same bucket
             cos.put_object(Body=json.dumps(response.json().get('predictions')),
                            Bucket=bucket,
@@ -111,7 +115,7 @@ def main(args):
             "bucket": bucket,
             "key": key,
             "annotation_key": key_id,
-            "annotation_type": "max-object-detector"
+            "annotation_type": "max-image-caption-generator"
            }
 
 

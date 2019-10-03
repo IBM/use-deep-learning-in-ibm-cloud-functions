@@ -5,7 +5,7 @@ In this tutorial you will create a serverless application using [IBM Cloud Funct
 
 ![serverless scenario](doc/images/scenario.png)
 
-Out of the box the application detects objects in a JPG image but you can easily modify the application to generate image captions or perform other kinds of analysis on images or other media types, such as text, audio, or video.
+Out of the box the application detects objects in a JPG image but you can easily modify the application to generate image captions or perform other kinds of analysis on images or other media types, such as text, audio, or video. Source code is included for Python and Node.js.
 
 ![Cloud Functions activity log](doc/images/test_output.png)
 
@@ -19,15 +19,15 @@ If you are not familiar with IBM Cloud Functions or Cloud Object Storage, follow
 1. Create service credentials for this service instance that the serverless app will use to access the bucket.
 1. Create a regional bucket (in `us-south`, `us-east`, or `eu-gb`) in this instance.
 1. In a terminal window verify that your IBM Cloud CLI installation is at version 0.19 or later.
-1. Customize `create_serverless_app.sh` (`create_serverless_app.bat` on Windows) by replacing the `<TODO-...>` placeholders.
-1. Run `create_serverless_app.sh` (`create_serverless_app.bat` on Windows) to create the application.
+1. Customize `create_serverless_app.sh` by replacing the `<TODO-...>` placeholders.
+1. Run `create_serverless_app.sh` to create the application.
 1. Open the [Cloud Functions dashboard](https://cloud.ibm.com/functions/dashboard) in a web browser.
 1. Upload a JPG image to the regional bucket and monitor the Cloud Functions activity log.
    ![Cloud Functions activity log](doc/images/monitor_functions.png)
 1. Upload a PNG image or any other kind of media to the bucket. No action should be triggered.
 1. Delete a previously uploaded JPG image. The corresponding JSON annotations file should be automatically removed.
 
-To uninstall the application run `delete_serverless_app.sh` (`delete_serverless_app.bat` on Windows).
+To uninstall the application run `delete_serverless_app.sh` .
 
 ## License
 

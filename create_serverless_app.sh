@@ -43,13 +43,19 @@ ibmcloud fn package get manage_pictures
 ibmcloud fn service bind cloud-object-storage manage_pictures --instance $COS_INSTANCE_NAME
 ibmcloud fn package get manage_pictures
 
-# Create an action that performs object detection and display the action's properties OR
-# create an action that generates an image caption and display the action's properties
-ibmcloud fn action update manage_pictures/bucket_write_action detect_objects.py --kind python:3.7
-# ibmcloud fn action update manage_pictures/bucket_write_action detect_objects.js --kind nodejs:10
+# Create an action that identifies objects in an image
+#  Use Python implementation
+ibmcloud fn action update manage_pictures/bucket_write_action actions/python/detect_objects.py --kind python:3.7
+#  Use Node.js implementation
+# ibmcloud fn action update manage_pictures/bucket_write_action actions/js/detect_objects.js --kind nodejs:10
 
-# ibmcloud fn action update manage_pictures/bucket_write_action generate_image_caption.py --kind python:3.7
+# Create an action that generates a caption for an image
+#  Use Python implementation
+# ibmcloud fn action update manage_pictures/bucket_write_action actions/python/generate_image_caption.py --kind python:3.7
+#  Use Node.js implementation
+# ibmcloud fn action update manage_pictures/bucket_write_action actions/js/generate_image_caption.js --kind nodejs:10
 
+# Display the action's properties
 ibmcloud fn action get manage_pictures/bucket_write_action
 
 # Create a rule that associates the trigger with the action and display the rule's properties
@@ -67,8 +73,11 @@ ibmcloud fn list
 # Create trigger that fires when a JPG image is removed from the specified bucket
 ibmcloud fn trigger create bucket_jpg_delete_trigger --feed /whisk.system/cos/changes --param bucket $BUCKET_NAME --param suffix ".jpg" --param event_types delete
 
-# Create an action that removes an annotation file 
-ibmcloud fn action update manage_pictures/bucket_delete_action bucket_delete_action.py --kind python:3.7
+# Create an action that removes an annotation file
+#  Python implementation
+ibmcloud fn action update manage_pictures/bucket_delete_action actions/python/delete_annotation.py --kind python:3.7
+#  Node.js implementation
+# ibmcloud fn action update manage_pictures/bucket_delete_action actions/js/delete_annotation.js --kind nodejs:10
 
 # Create a rule that associates the trigger with the action
 ibmcloud fn rule create bucket_jpg_delete_rule bucket_jpg_delete_trigger manage_pictures/bucket_delete_action
