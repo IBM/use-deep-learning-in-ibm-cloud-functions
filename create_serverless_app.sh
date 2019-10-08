@@ -12,8 +12,7 @@
 # Cloud Object Storage instance name 
 COS_INSTANCE_NAME=cloud-object-storage-lite
 # Regional bucket in above Cloud Object Storage instance
-#BUCKET_NAME=<TODO-your-bucket-name>
-BUCKET_NAME=vacation-pictures-ptitzler
+BUCKET_NAME=<TODO-your-bucket-name>
 # Cloud Functions namespace where the tutorial application
 # entities will be created
 NAMESPACE_NAME=analyze_images
