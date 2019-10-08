@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-# This script #oves Cloud Functions entities from the 
+# This script removes Cloud Functions entities from the 
 # selected namespace that implement the tutorial application.
 # Prerequisites:
 #  (1) IBM Cloud CLI is installed and included in PATH
