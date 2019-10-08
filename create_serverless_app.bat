@@ -5,7 +5,7 @@ REM Prerequisites:
 REM  (1) IBM Cloud CLI is installed and included in PATH
 REM  (2) IBM Cloud Functions plugin is installed
 REM  (3) A Cloud Object Storage instance was provisioned (see create_services.bat)
-REM  (4) A regional bucket was created in named Cloud Object Storage instanc
+REM  (4) A regional bucket was created in named Cloud Object Storage instance
 REM Replace the following placeholders:
 REM  <TODO-your-bucket-name>
 REM ----------------------------------------------------------
@@ -70,7 +70,7 @@ REM Create a rule that associates the JPG triggers with the action and display t
 ibmcloud fn rule create bucket_jpg_write_rule bucket_jpg_write_trigger manage_pictures/bucket_write_action
 ibmcloud fn rule get bucket_jpg_write_rule
 
-REM Create a rule that associates the JPG triggers with the action and display the rule's properties
+REM Create a rule that associates the PNG triggers with the action and display the rule's properties
 ibmcloud fn rule create bucket_png_write_rule bucket_png_write_trigger manage_pictures/bucket_write_action
 ibmcloud fn rule get bucket_png_write_rule
 

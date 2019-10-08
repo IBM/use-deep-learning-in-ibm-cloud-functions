@@ -1,7 +1,8 @@
 # ------------------------------------------------------------------------------------
-# This script creates the Cloud services that the  
-# tutorial application utilizes:
+# This script creates the Cloud services that the tutorial application utilizes:
 # - Cloud Object Storage https://cloud.ibm.com/catalog/services/cloud-object-storage
+# Prerequisites:
+#  (1) IBM Cloud CLI is installed and included in PATH
 # ------------------------------------------------------------------------------------
 
 # Cloud Object Storage instance name

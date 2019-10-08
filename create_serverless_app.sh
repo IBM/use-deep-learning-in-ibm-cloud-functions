@@ -1,7 +1,10 @@
 # ----------------------------------------------------------
-# This script creates Cloud Functions entities in the current 
-# namespace that implement the tutorial application.
-#
+# This script creates Cloud Functions entities in the current namespace that implement the tutorial application.
+# Prerequisites:
+#  (1) IBM Cloud CLI is installed and included in PATH
+#  (2) IBM Cloud Functions plugin is installed
+#  (3) A Cloud Object Storage instance was provisioned (see create_services.sh)
+#  (4) A regional bucket was created in named Cloud Object Storage instance
 # Replace the following placeholders:
 #  <TODO-your-bucket-name>
 # ----------------------------------------------------------
@@ -35,6 +38,11 @@ ibmcloud fn trigger create bucket_jpg_write_trigger --feed /whisk.system/cos/cha
 # Display trigger properties
 ibmcloud fn trigger get bucket_jpg_write_trigger
 
+# Create trigger that fires when a PNG image is uploaded to the specified bucket
+ibmcloud fn trigger create bucket_png_write_trigger --feed /whisk.system/cos/changes --param bucket $BUCKET_NAME --param suffix ".png" --param event_types write
+# Display trigger properties
+ibmcloud fn trigger get bucket_png_write_trigger
+
 # Create a package and display its properties
 ibmcloud fn package create manage_pictures
 ibmcloud fn package get manage_pictures
@@ -58,9 +66,13 @@ ibmcloud fn action update manage_pictures/bucket_write_action actions/python/det
 # Display the action's properties
 ibmcloud fn action get manage_pictures/bucket_write_action
 
-# Create a rule that associates the trigger with the action and display the rule's properties
+# Create a rule that associates the JPG trigger with the action and display the rule's properties
 ibmcloud fn rule create bucket_jpg_write_rule bucket_jpg_write_trigger manage_pictures/bucket_write_action
 ibmcloud fn rule get bucket_jpg_write_rule
+
+# Create a rule that associates the PNG trigger with the action and display the rule's properties
+ibmcloud fn rule create bucket_png_write_rule bucket_png_write_trigger manage_pictures/bucket_write_action
+ibmcloud fn rule get bucket_png_write_rule
 
 # Display entities in the current namespace
 ibmcloud fn list
@@ -72,6 +84,8 @@ ibmcloud fn list
 
 # Create trigger that fires when a JPG image is removed from the specified bucket
 ibmcloud fn trigger create bucket_jpg_delete_trigger --feed /whisk.system/cos/changes --param bucket $BUCKET_NAME --param suffix ".jpg" --param event_types delete
+# Create trigger that fires when a PNG image is removed from the specified bucket
+ibmcloud fn trigger create bucket_png_delete_trigger --feed /whisk.system/cos/changes --param bucket $BUCKET_NAME --param suffix ".png" --param event_types delete
 
 # Create an action that removes an annotation file
 #  Python implementation
@@ -79,8 +93,9 @@ ibmcloud fn action update manage_pictures/bucket_delete_action actions/python/de
 #  Node.js implementation
 # ibmcloud fn action update manage_pictures/bucket_delete_action actions/js/delete_annotation.js --kind nodejs:10
 
-# Create a rule that associates the trigger with the action
+# Create rules that associate the triggers with the action
 ibmcloud fn rule create bucket_jpg_delete_rule bucket_jpg_delete_trigger manage_pictures/bucket_delete_action
+ibmcloud fn rule create bucket_png_delete_rule bucket_png_delete_trigger manage_pictures/bucket_delete_action
 
 # Display entities in the current namespace
 ibmcloud fn list
