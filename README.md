@@ -11,7 +11,7 @@ Out of the box the application detects objects in an image but you can easily mo
 
 ## Steps
 
-If you are not familiar with IBM Cloud Functions or Cloud Object Storage, follow the detailed deployment instructions in this tutorial.
+If you are not familiar with IBM Cloud Functions or Cloud Object Storage, follow the detailed deployment instructions in the  "[Leverage deep learning in IBM Cloud Functions](https://developer.ibm.com/tutorials/leverage-deep-learning-in-apache-openwhisk-ibm-cloud-functions)" tutorial.
 
 ### Quickstart
 
