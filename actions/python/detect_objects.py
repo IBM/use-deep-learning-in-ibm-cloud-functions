@@ -78,8 +78,12 @@ def main(args):
         # (high confidence))
         data = {'threshold': '0.5'}
 
-        # URL of a MAX Object Detector microservice evaluation instance
-        host = 'max-object-detector.max.us-south.containers.appdomain.cloud'
+        # For illustrative purposes we use the URL of a public MAX Object
+        # Detector microservice evaluation instance.
+        # This instance must not be used for production purposes.
+        host = 'max-object-detector.'\
+               'codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.'\
+               'containers.appdomain.cloud'
         # Invoke the prediction endpoint of the Object Detection
         # microservice to analyze the loaded object.
         response = requests.post('http://{}/model/predict'.format(host),
