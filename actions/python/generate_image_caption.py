@@ -81,9 +81,12 @@ def main(args):
            'image': (key, content, mimetype)
         }
 
-        # URL of a MAX Image Caption Generator microservice evaluation instance
+        # For illustrative purposes we use the URL of a public MAX Image
+        # Caption Generator microservice evaluation instance.
+        # This instance must not be used for production purposes.
         host = 'max-image-caption-generator.' \
-               'max.us-south.containers.appdomain.cloud'
+               'codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.'\
+               'containers.appdomain.cloud'
 
         # Invoke the prediction endpoint of the Image Caption Generator
         # microservice to analyze the loaded object.

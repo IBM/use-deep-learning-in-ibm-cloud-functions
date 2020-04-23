@@ -66,8 +66,12 @@ async function main(args) {
 
         // the uploaded_object['Body'] property contains the data
 
-        // URL of a MAX Object Detector microservice evaluation instance
-        const host = 'max-image-caption-generator.max.us-south.containers.appdomain.cloud';
+        // For illustrative purposes we use the URL of a public MAX Image
+        // Caption Generator microservice evaluation instance.
+        // This instance must not be used for production purposes.
+        const host = 'max-image-caption-generator.' +
+                     'codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.' + 
+                     'containers.appdomain.cloud';
 
         // prepare payload for the caption generation analysis call:
         //  - image (required; a JPG or PNG-encoded picture)
